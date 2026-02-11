@@ -1,0 +1,10 @@
+{
+  "mode": "both",
+  "device_name": "Dining Room",
+  "snapserver_host": "192.168.86.100",
+  "spotify": {
+    "bitrate": 320,
+    "volume_steps": 100,
+    "initial_volume": 80
+  }
+}
