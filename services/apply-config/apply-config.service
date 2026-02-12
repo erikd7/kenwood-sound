@@ -1,0 +1,11 @@
+[Unit]
+Description=Apply Configuration
+Before=snapserver.service snapclient.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/kenwood-sound-apply-config
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target

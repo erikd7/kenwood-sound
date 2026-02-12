@@ -1,10 +1,29 @@
 {
-  "mode": "both",
+  "system_name": "38 Kenwood",
+  "role": "both",
   "device_name": "Dining Room",
-  "snapserver_host": "192.168.86.100",
-  "spotify": {
+  "snapserver": {
+    "ports": {
+      "audio": 1704,
+      "control": 1705,
+      "http": 1780
+    },
+    "codec": "flac",
+    "sample_format": "48000:16:2",
+    "buffer_ms": 100,
+    "streams": {
+      "librespot": true,
+      "airplay": false,
+      "plexamp": false
+    }
+  },
+  "snapclient": {
+    "server_host": "192.168.86.100"
+  },
+  "librespot": {
+    "device_type": "speaker",
     "bitrate": 320,
-    "volume_steps": 100,
-    "initial_volume": 80
+    "initial_volume": 80,
+    "volume_steps": 100
   }
 }

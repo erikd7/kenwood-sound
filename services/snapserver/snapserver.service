@@ -1,0 +1,12 @@
+[Unit]
+Description=Snapserver
+After=network-online.target apply-config.service
+Requires=apply-config.service
+
+[Service]
+EnvironmentFile=/etc/kenwood-sound/kenwood-sound.env
+ExecStart=/usr/bin/snapserver --config /etc/snapserver.conf
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

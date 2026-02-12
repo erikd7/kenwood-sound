@@ -1,0 +1,12 @@
+[Unit]
+Description=Snapclient
+After=network-online.target apply-config.service
+Requires=apply-config.service
+
+[Service]
+EnvironmentFile=/etc/kenwood-sound/kenwood-sound.env
+ExecStart=/usr/bin/snapclient -h ${SNAP_HOST}
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

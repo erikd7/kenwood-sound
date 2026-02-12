@@ -1,0 +1,14 @@
+[Unit]
+Description=Librespot
+After=network-online.target apply-config.service
+Requires=apply-config.service
+
+[Service]
+User=librespot
+Environment=HOME=/var/lib/librespot
+ExecStart=/usr/local/bin/librespot
+
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
