@@ -78,13 +78,13 @@ EOF
     LIB_VOL=$(jq -r '.librespot.initial_volume // 80' "$CONFIG")
 
     cat >> "$TMP_CONF" <<EOF
-source = pipe:///tmp/librespotfifo?name=Snapcast-Spotify&bitrate=$LIB_BITRATE&normalize=true&disable_audio_cache=true&wd_timeout=7800&volume=$LIB_VOL
+source = pipe:///tmp/librespotfifo?name=Spotify&sampleformat=44100:16:2&bitrate=$LIB_BITRATE&normalize=true&disable_audio_cache=true&wd_timeout=7800&volume=$LIB_VOL
 EOF
   fi
 
   if [ "$USE_AIRPLAY" = "true" ]; then
     cat >> "$TMP_CONF" <<EOF
-source = airplay:///shairport-sync?name=Snapcast-Airplay&port=4483&devicename=$SYSTEM_NAME
+source = airplay:///shairport-sync?name=Airplay&port=4483&devicename=$SYSTEM_NAME
 EOF
   fi
 
