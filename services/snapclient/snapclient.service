@@ -7,7 +7,7 @@ Requires=apply-config.service
 User=snapclient
 Group=audio
 EnvironmentFile=/etc/kenwood-sound/kenwood-sound.env
-ExecStart=/usr/bin/snapclient -h ${SNAP_HOST} -s ${SNAP_SOUNDCARD} --hostID ${DEVICE_NAME}
+ExecStart=/bin/sh -c 'SYSTEM_NAME="$DEVICE_NAME" exec /usr/bin/snapclient -h "$SNAP_HOST" -s "$SNAP_SOUNDCARD" --hostID "$DEVICE_NAME"'
 Restart=always
 
 [Install]
