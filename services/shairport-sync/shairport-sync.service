@@ -1,0 +1,13 @@
+[Unit]
+Description=Shairport Sync (AirPlay)
+After=network-online.target apply-config.service
+Requires=apply-config.service
+
+[Service]
+User=shairport-sync
+Group=audio
+ExecStart=/usr/bin/shairport-sync -c /etc/shairport-sync.conf
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

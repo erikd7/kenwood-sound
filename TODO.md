@@ -8,10 +8,6 @@
 
 - Rename device with device_name instead of host_name (verify)
 
-# airplay 2
-
-Full setup
-
 # UI
 
 - Choose UI

@@ -29,6 +29,7 @@ install:
 	sudo cp services/plexamp/plexamp.service $(SYSTEMD_DIR)/
 	sudo cp services/snapserver/snapserver.service $(SYSTEMD_DIR)/
 	sudo cp services/snapclient/snapclient.service $(SYSTEMD_DIR)/
+	sudo cp services/shairport-sync/shairport-sync.service $(SYSTEMD_DIR)/
 
 	# Install deps
 	sudo bash services/install.sh
@@ -45,6 +46,7 @@ enable:
 	sudo systemctl enable librespot.service
 	sudo systemctl enable snapserver.service
 	sudo systemctl enable snapclient.service
+	sudo systemctl enable shairport-sync.service
 
 disable:
 	sudo systemctl disable apply-config.service || true
@@ -52,6 +54,7 @@ disable:
 	sudo systemctl disable librespot.service || true
 	sudo systemctl disable snapserver.service || true
 	sudo systemctl disable snapclient.service || true
+	sudo systemctl disable shairport-sync.service || true
 
 uninstall:
 	@echo "Uninstalling..."
@@ -60,12 +63,14 @@ uninstall:
 	sudo systemctl disable librespot.service || true
 	sudo systemctl disable snapserver.service || true
 	sudo systemctl disable snapclient.service || true
+	sudo systemctl disable shairport-sync.service || true
 
 	sudo rm -f $(SYSTEMD_DIR)/apply-config.service
 	sudo rm -f $(SYSTEMD_DIR)/plexamp.service
 	sudo rm -f $(SYSTEMD_DIR)/librespot.service
 	sudo rm -f $(SYSTEMD_DIR)/snapserver.service
 	sudo rm -f $(SYSTEMD_DIR)/snapclient.service
+	sudo rm -f $(SYSTEMD_DIR)/shairport-sync.service
 
 	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-apply-config
 	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-start
@@ -81,3 +86,4 @@ status:
 	systemctl status snapclient || true
 	systemctl status plexamp || true
 	systemctl status librespot || true
+	systemctl status shairport-sync || true
