@@ -7,7 +7,6 @@ Requires=apply-config.service
 User=librespot
 Environment=HOME=/var/lib/librespot
 ExecStart=/usr/local/bin/librespot
-
 Restart=always
 
 [Install]

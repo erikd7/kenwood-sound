@@ -27,8 +27,6 @@ ROLE=$(jq -r '.role' "$CONFIG")
 DEVICE_NAME=$(jq -r '.device_name // ""' "$CONFIG")
 SNAP_HOST=$(jq -r '.snapclient.server_host // "127.0.0.1"' "$CONFIG")
 
-echo "Wrote environment file to $ENV_FILE"
-
 # Set hostname
 hostnamectl set-hostname "$SYSTEM_NAME"
 
@@ -51,9 +49,9 @@ if [[ "$ROLE" == "server" || "$ROLE" == "both" ]]; then
   SAMPLE_FORMAT=$(jq -r '.snapserver.sample_format // "48000:16:2"' "$CONFIG")
   BUFFER_MS=$(jq -r '.snapserver.buffer_ms // 100' "$CONFIG")
 
-  export USE_LIBRESPOT=$(jq -r '.snapserver.streams.librespot // true' "$CONFIG")
-  export USE_AIRPLAY=$(jq -r '.snapserver.streams.airplay // false' "$CONFIG")
-  export USE_PLEXAMP=$(jq -r '.snapserver.streams.plexamp // false' "$CONFIG")
+  USE_LIBRESPOT=$(jq -r '.snapserver.streams.librespot // true' "$CONFIG")
+  USE_AIRPLAY=$(jq -r '.snapserver.streams.airplay // false' "$CONFIG")
+  USE_PLEXAMP=$(jq -r '.snapserver.streams.plexamp // false' "$CONFIG")
 
   # Start config
   cat > "$TMP_CONF" <<EOF
@@ -113,7 +111,7 @@ EOF
 fi
 
 # ----------------------------
-# Generate go-librespot Config
+# Set Up Audio Sources
 # ----------------------------
 
 if [[ "$ROLE" == "server" || "$ROLE" == "both" ]]; then
@@ -129,8 +127,7 @@ if [[ "$ROLE" == "server" || "$ROLE" == "both" ]]; then
 
     echo "Generating go-librespot config"
 
-    LIB_HOME="/var/lib/librespot"
-    LIB_CONFIG_DIR="$LIB_HOME/.config/go-librespot"
+    LIB_CONFIG_DIR="/var/lib/librespot/.config/go-librespot"
     LIB_CONFIG_FILE="$LIB_CONFIG_DIR/config.yml"
     LIB_FIFO="/tmp/librespotfifo"
 

@@ -1,29 +1,32 @@
 #!/bin/bash
 
-echo "Starting services for node type $ROLE"
-
-CONFIG="/etc/kenwood-sound/device.json"
+echo "Starting services for role: $ROLE"
 
 systemctl disable snapserver.service || true
 systemctl disable snapclient.service || true
 systemctl disable librespot.service || true
+systemctl disable plexamp.service || true
 
 case "$ROLE" in
   server)
-    systemctl enable snapserver
-    systemctl restart snapserver
+    systemctl enable plexamp
+    systemctl restart plexamp
     systemctl enable librespot
     systemctl restart librespot
+    systemctl enable snapserver
+    systemctl restart snapserver
     ;;
   client)
     systemctl enable snapclient
     systemctl restart snapclient
     ;;
   both)
-    systemctl enable snapserver
-    systemctl restart snapserver
+    systemctl enable plexamp
+    systemctl restart plexamp
     systemctl enable librespot
     systemctl restart librespot
+    systemctl enable snapserver
+    systemctl restart snapserver
     systemctl enable snapclient
     systemctl restart snapclient
     ;;

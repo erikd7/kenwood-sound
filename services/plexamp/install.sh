@@ -17,10 +17,8 @@ fi
 
 if [[ "$ARCH" == "aarch64" ]]; then
     NODE_ARCH="arm64"
-    PLEX_ARCH="arm64"
 elif [[ "$ARCH" == "armv7l" ]]; then
     NODE_ARCH="armv7l"
-    PLEX_ARCH="armhf"
 else
     echo "Unsupported architecture: $ARCH"
     exit 1

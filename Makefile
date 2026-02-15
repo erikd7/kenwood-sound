@@ -67,7 +67,7 @@ uninstall:
 	sudo rm -f $(SYSTEMD_DIR)/snapserver.service
 	sudo rm -f $(SYSTEMD_DIR)/snapclient.service
 
-	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-install
+	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-apply-config
 	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-start
 
 	sudo systemctl daemon-reload
@@ -80,4 +80,4 @@ status:
 	systemctl status snapserver || true
 	systemctl status snapclient || true
 	systemctl status plexamp || true
-	systemctl status librespot || truez
+	systemctl status librespot || true
