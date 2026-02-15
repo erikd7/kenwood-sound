@@ -26,6 +26,7 @@ BUFFER_MS=$(jq -r '.snapserver.buffer_ms // 100' "$CONFIG")
 USE_LIBRESPOT=$(jq -r '.snapserver.streams.librespot // true' "$CONFIG")
 USE_AIRPLAY=$(jq -r '.snapserver.streams.airplay // false' "$CONFIG")
 USE_PLEXAMP=$(jq -r '.snapserver.streams.plexamp // false' "$CONFIG")
+USE_HOST_AUDIO=$(jq -r '.snapserver.streams.host_audio // false' "$CONFIG")
 
 # Start config
 cat > "$TMP_CONF" <<EOF
@@ -66,6 +67,16 @@ fi
 if [ "$USE_PLEXAMP" = "true" ]; then
   cat >> "$TMP_CONF" <<EOF
 source = alsa:///?name=Plexamp&device=plexamp_in&sampleformat=44100:16:2
+EOF
+fi
+
+if [ "$USE_HOST_AUDIO" = "true" ]; then
+  HOST_AUDIO_NAME=$(jq -r '.host_audio.name // "System Audio"' "$CONFIG")
+  HOST_AUDIO_DEVICE=$(jq -r '.host_audio.device // "hw:CARD=AUDIO,DEV=0"' "$CONFIG")
+  HOST_AUDIO_FORMAT=$(jq -r '.host_audio.sample_format // "48000:16:2"' "$CONFIG")
+
+  cat >> "$TMP_CONF" <<EOF
+source = alsa:///?name=$HOST_AUDIO_NAME&device=$HOST_AUDIO_DEVICE&sampleformat=$HOST_AUDIO_FORMAT
 EOF
 fi
 

@@ -8,11 +8,6 @@
 
 - Rename device with device_name instead of host_name (verify)
 
-# USB audio in
-
-- Replace broken cable
-- Set up
-
 # UI
 
 - Choose UI
@@ -20,7 +15,6 @@
 
 # Organization
 
-- Move config pieces to their own folder
 - Readme
 
 # Cleanup
