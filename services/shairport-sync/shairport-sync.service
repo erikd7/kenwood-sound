@@ -1,7 +1,7 @@
 [Unit]
 Description=Shairport Sync (AirPlay)
-After=network-online.target apply-config.service
-Requires=apply-config.service
+After=network-online.target setup.service
+Requires=setup.service
 
 [Service]
 User=shairport-sync

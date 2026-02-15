@@ -34,23 +34,23 @@ SNAP_SOUNDCARD=$(jq -r '.snapclient.output_device // "default"' "$CONFIG")
 hostnamectl set-hostname "$SYSTEM_NAME"
 
 # ----------------------------
-# Call service-specific apply-config scripts
+# Call service-specific setup scripts
 # ----------------------------
 
-if [ -f "$CONFIG_BIN_DIR/kenwood-sound-snapserver-apply-config" ]; then
-  "$CONFIG_BIN_DIR/kenwood-sound-snapserver-apply-config" "$CONFIG" "$SYSTEM_NAME" "$ROLE"
+if [ -f "$CONFIG_BIN_DIR/kenwood-sound-snapserver-setup" ]; then
+  "$CONFIG_BIN_DIR/kenwood-sound-snapserver-setup" "$CONFIG" "$SYSTEM_NAME" "$ROLE"
 fi
 
-if [ -f "$CONFIG_BIN_DIR/kenwood-sound-librespot-apply-config" ]; then
-  "$CONFIG_BIN_DIR/kenwood-sound-librespot-apply-config" "$CONFIG" "$SYSTEM_NAME"
+if [ -f "$CONFIG_BIN_DIR/kenwood-sound-librespot-setup" ]; then
+  "$CONFIG_BIN_DIR/kenwood-sound-librespot-setup" "$CONFIG" "$SYSTEM_NAME"
 fi
 
-if [ -f "$CONFIG_BIN_DIR/kenwood-sound-shairport-apply-config" ]; then
-  "$CONFIG_BIN_DIR/kenwood-sound-shairport-apply-config" "$CONFIG" "$SYSTEM_NAME"
+if [ -f "$CONFIG_BIN_DIR/kenwood-sound-shairport-setup" ]; then
+  "$CONFIG_BIN_DIR/kenwood-sound-shairport-setup" "$CONFIG" "$SYSTEM_NAME"
 fi
 
-if [ -f "$CONFIG_BIN_DIR/kenwood-sound-plexamp-apply-config" ]; then
-  "$CONFIG_BIN_DIR/kenwood-sound-plexamp-apply-config" "$ROLE"
+if [ -f "$CONFIG_BIN_DIR/kenwood-sound-plexamp-setup" ]; then
+  "$CONFIG_BIN_DIR/kenwood-sound-plexamp-setup" "$CONFIG" "$ROLE"
 fi
 
 # ----------------------------

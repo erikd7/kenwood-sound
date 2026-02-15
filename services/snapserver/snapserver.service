@@ -1,7 +1,7 @@
 [Unit]
 Description=Snapserver
-After=network-online.target apply-config.service plexamp.service
-Requires=apply-config.service
+After=network-online.target setup.service
+Requires=setup.service
 
 [Service]
 User=snapserver

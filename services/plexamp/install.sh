@@ -2,6 +2,16 @@
 set -e
 
 ARCH=$(uname -m)
+CONFIG="/etc/kenwood-sound/device.json"
+
+# Early exit if plexamp not needed
+if [ -f "$CONFIG" ]; then
+  USE_PLEXAMP=$(jq -r '.snapserver.streams.plexamp // false' "$CONFIG")
+  if [[ "$USE_PLEXAMP" != "true" ]]; then
+    echo "Plexamp is disabled, skipping installation..."
+    exit 0
+  fi
+fi
 
 NODE_VERSION_FOR_PLEXAMP="20.9.0"
 NODE_INSTALL_DIR="/opt/node"
@@ -9,11 +19,6 @@ NODE_BIN="$NODE_INSTALL_DIR/bin/node"
 
 PLEXAMP_INSTALL_DIR="/usr/local/bin/plexamp"
 PLEXAMP_VERSION_FILE="$PLEXAMP_INSTALL_DIR/.version"
-
-if [[ "$USE_PLEXAMP" == "false" ]]; then
-  echo "Plexamp is disabled, skipping installation..."
-  exit 0
-fi
 
 if [[ "$ARCH" == "aarch64" ]]; then
     NODE_ARCH="arm64"

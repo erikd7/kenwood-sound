@@ -1,6 +1,18 @@
 #!/bin/bash
+set -e
 
 ARCH=$1
+CONFIG="/etc/kenwood-sound/device.json"
+
+# Early exit if snapclient not needed
+if [ -f "$CONFIG" ]; then
+  ROLE=$(jq -r '.role // "client"' "$CONFIG")
+  if [[ "$ROLE" != "client" && "$ROLE" != "both" ]]; then
+    echo "Snapclient not needed for role: $ROLE"
+    exit 0
+  fi
+fi
+
 echo "Snapclient install running on $ARCH"
 
 echo "Installing snapclient..."

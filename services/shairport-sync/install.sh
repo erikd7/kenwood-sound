@@ -2,6 +2,17 @@
 set -e
 
 ARCH=$1
+CONFIG="/etc/kenwood-sound/device.json"
+
+# Early exit if airplay not needed
+if [ -f "$CONFIG" ]; then
+  USE_AIRPLAY=$(jq -r '.snapserver.streams.airplay // false' "$CONFIG")
+  if [[ "$USE_AIRPLAY" != "true" ]]; then
+    echo "Airplay is disabled, skipping installation..."
+    exit 0
+  fi
+fi
+
 echo "shairport-sync install running on $ARCH"
 
 echo "Installing shairport-sync..."
