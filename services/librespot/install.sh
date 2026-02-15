@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+if [[ "$USE_LIBRESPOT" == "false" ]]; then
+  echo "Librespot is disabled, skipping installation..."
+  exit 0
+fi
+
 ARCH=$1  # receive from top-level script
 echo "Librespot install running on $ARCH"
 

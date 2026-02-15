@@ -24,6 +24,8 @@ fi
 # Parse base config
 SYSTEM_NAME=$(jq -r '.system_name' "$CONFIG")
 ROLE=$(jq -r '.role' "$CONFIG")
+DEVICE_NAME=$(jq -r '.device_name // ""' "$CONFIG")
+SNAP_HOST=$(jq -r '.snapclient.server_host // "127.0.0.1"' "$CONFIG")
 
 echo "Wrote environment file to $ENV_FILE"
 
@@ -49,9 +51,9 @@ if [[ "$ROLE" == "server" || "$ROLE" == "both" ]]; then
   SAMPLE_FORMAT=$(jq -r '.snapserver.sample_format // "48000:16:2"' "$CONFIG")
   BUFFER_MS=$(jq -r '.snapserver.buffer_ms // 100' "$CONFIG")
 
-  USE_LIBRESPOT=$(jq -r '.snapserver.streams.librespot // true' "$CONFIG")
-  USE_AIRPLAY=$(jq -r '.snapserver.streams.airplay // false' "$CONFIG")
-  USE_PLEXAMP=$(jq -r '.snapserver.streams.plexamp // false' "$CONFIG")
+  export USE_LIBRESPOT=$(jq -r '.snapserver.streams.librespot // true' "$CONFIG")
+  export USE_AIRPLAY=$(jq -r '.snapserver.streams.airplay // false' "$CONFIG")
+  export USE_PLEXAMP=$(jq -r '.snapserver.streams.plexamp // false' "$CONFIG")
 
   # Start config
   cat > "$TMP_CONF" <<EOF
@@ -61,6 +63,7 @@ controlPort = $CONTROL_PORT
 http_port = $HTTP_PORT
 ipv6 = false
 hostname = $SYSTEM_NAME
+sink = null
 
 [http]
 bindToAddress = 0.0.0.0
@@ -90,7 +93,7 @@ EOF
 
   if [ "$USE_PLEXAMP" = "true" ]; then
     cat >> "$TMP_CONF" <<EOF
-source = tcp:///0.0.0.0:4484?name=Plexamp&sampleformat=44100:16:2
+source = alsa:///?name=Plexamp&device=plexamp_in&sampleformat=44100:16:2
 EOF
   fi
 
@@ -114,8 +117,13 @@ fi
 # ----------------------------
 
 if [[ "$ROLE" == "server" || "$ROLE" == "both" ]]; then
-
-  USE_LIBRESPOT=$(jq -r '.snapserver.streams.librespot // true' "$CONFIG")
+  if [ "$USE_PLEXAMP" = "true" ]; then
+    # Ensure ALSA loopback kernel module is loaded
+    if ! lsmod | grep -q '^snd_aloop\b'; then
+      echo "Loading snd-aloop kernel module"
+      modprobe snd-aloop || true
+    fi
+  fi
 
   if [ "$USE_LIBRESPOT" = "true" ]; then
 
@@ -176,6 +184,8 @@ fi
 cat > "$ENV_FILE" <<EOF
 SYSTEM_NAME=$SYSTEM_NAME
 ROLE=$ROLE
+DEVICE_NAME=$DEVICE_NAME
+SNAP_HOST=$SNAP_HOST
 EOF
 
 echo "Configuration applied successfully."

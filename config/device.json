@@ -14,7 +14,7 @@
     "streams": {
       "librespot": true,
       "airplay": false,
-      "plexamp": false
+      "plexamp": true
     }
   },
   "snapclient": {

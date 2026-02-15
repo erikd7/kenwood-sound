@@ -1,0 +1,15 @@
+[Unit]
+Description=Plexamp
+After=network-online.target apply-config.service
+Requires=apply-config.service
+
+[Service]
+User=plexamp
+Group=audio
+Environment=HOME=/var/lib/plexamp
+WorkingDirectory=/var/lib/plexamp
+ExecStart=/opt/node/bin/node /usr/local/bin/plexamp/js/index.js
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -1,9 +1,13 @@
 [Unit]
 Description=Snapserver
-After=network-online.target apply-config.service
+After=network-online.target apply-config.service plexamp.service
 Requires=apply-config.service
 
 [Service]
+User=snapserver
+Group=audio
+WorkingDirectory=/var/lib/snapserver
+Environment=HOME=/var/lib/snapserver
 EnvironmentFile=/etc/kenwood-sound/kenwood-sound.env
 ExecStart=/usr/bin/snapserver --config /etc/snapserver.conf
 Restart=always
