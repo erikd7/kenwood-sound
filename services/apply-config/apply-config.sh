@@ -26,6 +26,8 @@ SYSTEM_NAME=$(jq -r '.system_name' "$CONFIG")
 ROLE=$(jq -r '.role' "$CONFIG")
 DEVICE_NAME=$(jq -r '.device_name // ""' "$CONFIG")
 SNAP_HOST=$(jq -r '.snapclient.server_host // "127.0.0.1"' "$CONFIG")
+SNAP_PORT=$(jq -r '.snapclient.server_port // 1704' "$CONFIG")
+SNAP_SOUNDCARD=$(jq -r '.snapclient.output_device // "default"' "$CONFIG")
 
 # Set hostname
 hostnamectl set-hostname "$SYSTEM_NAME"
@@ -183,6 +185,8 @@ SYSTEM_NAME=$SYSTEM_NAME
 ROLE=$ROLE
 DEVICE_NAME=$DEVICE_NAME
 SNAP_HOST=$SNAP_HOST
+SNAP_PORT=$SNAP_PORT
+SNAP_SOUNDCARD=$SNAP_SOUNDCARD
 EOF
 
 echo "Configuration applied successfully."

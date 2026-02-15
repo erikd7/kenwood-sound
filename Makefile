@@ -28,7 +28,7 @@ install:
 	sudo cp services/librespot/librespot.service $(SYSTEMD_DIR)/
 	sudo cp services/plexamp/plexamp.service $(SYSTEMD_DIR)/
 	sudo cp services/snapserver/snapserver.service $(SYSTEMD_DIR)/
-	sudo cp services/snapserver/snapclient.service $(SYSTEMD_DIR)/
+	sudo cp services/snapclient/snapclient.service $(SYSTEMD_DIR)/
 
 	# Install deps
 	sudo bash services/install.sh

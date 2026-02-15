@@ -18,7 +18,9 @@
     }
   },
   "snapclient": {
-    "server_host": "192.168.86.100"
+    "server_host": "localhost",
+    "server_port": 1704,
+    "output_device": "snapclient_dac"
   },
   "librespot": {
     "device_type": "speaker",

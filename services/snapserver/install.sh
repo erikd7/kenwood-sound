@@ -4,7 +4,7 @@ ARCH=$1
 echo "Snapserver install running on $ARCH"
 
 echo "Installing snapserver..."
-sudo apt install -y snapserver snapclient
+sudo apt install -y snapserver
 
 # Set up snapserver user and directories
 sudo useradd -r -s /usr/sbin/nologin snapserver 2>/dev/null || true

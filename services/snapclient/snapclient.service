@@ -4,8 +4,10 @@ After=network-online.target apply-config.service
 Requires=apply-config.service
 
 [Service]
+User=snapclient
+Group=audio
 EnvironmentFile=/etc/kenwood-sound/kenwood-sound.env
-ExecStart=/usr/bin/snapclient -h ${SNAP_HOST}
+ExecStart=/usr/bin/snapclient -h ${SNAP_HOST} -s ${SNAP_SOUNDCARD} --hostID ${DEVICE_NAME}
 Restart=always
 
 [Install]
