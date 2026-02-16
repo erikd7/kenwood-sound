@@ -2,7 +2,7 @@
 set -e
 
 CONFIG="$1"
-SYSTEM_NAME="$2"
+SNAPSERVER_NAME="$2"
 
 # Early exit if airplay is disabled
 USE_AIRPLAY=$(jq -r '.snapserver.streams.airplay' "$CONFIG")
@@ -25,7 +25,7 @@ fi
 
 cat > "$AIRPLAY_CONF" <<EOF
 general = {
-  name = "$SYSTEM_NAME";
+  name = "$SNAPSERVER_NAME";
   output_backend = "pipe";
 };
 

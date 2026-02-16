@@ -34,30 +34,30 @@ jq -s '.[0] * .[1]' "$DEFAULT_CONFIG" "$DEVICE_CONFIG" > "$MERGED_CONFIG"
 CONFIG="$MERGED_CONFIG"
 
 # Parse base config (from merged config, no inline defaults)
-SYSTEM_NAME=$(jq -r '.system_name' "$CONFIG")
-ROLE=$(jq -r '.role' "$CONFIG")
 DEVICE_NAME=$(jq -r '.device_name' "$CONFIG")
+ROLE=$(jq -r '.role' "$CONFIG")
+SNAPSERVER_NAME=$(jq -r '.snapserver.name' "$CONFIG")
 SNAP_HOST=$(jq -r '.snapclient.server_host' "$CONFIG")
 SNAP_PORT=$(jq -r '.snapclient.server_port' "$CONFIG")
 SNAP_SOUNDCARD=$(jq -r '.snapclient.output_device' "$CONFIG")
 
-# Set hostname
-hostnamectl set-hostname "$SYSTEM_NAME"
+# Set hostname to device_name
+hostnamectl set-hostname "$DEVICE_NAME"
 
 # ----------------------------
 # Call service-specific setup scripts
 # ----------------------------
 
 if [ -f "$CONFIG_BIN_DIR/kenwood-sound-snapserver-setup" ]; then
-  "$CONFIG_BIN_DIR/kenwood-sound-snapserver-setup" "$CONFIG" "$SYSTEM_NAME" "$ROLE"
+  "$CONFIG_BIN_DIR/kenwood-sound-snapserver-setup" "$CONFIG" "$SNAPSERVER_NAME" "$ROLE"
 fi
 
 if [ -f "$CONFIG_BIN_DIR/kenwood-sound-librespot-setup" ]; then
-  "$CONFIG_BIN_DIR/kenwood-sound-librespot-setup" "$CONFIG" "$SYSTEM_NAME"
+  "$CONFIG_BIN_DIR/kenwood-sound-librespot-setup" "$CONFIG" "$SNAPSERVER_NAME"
 fi
 
 if [ -f "$CONFIG_BIN_DIR/kenwood-sound-shairport-setup" ]; then
-  "$CONFIG_BIN_DIR/kenwood-sound-shairport-setup" "$CONFIG" "$SYSTEM_NAME"
+  "$CONFIG_BIN_DIR/kenwood-sound-shairport-setup" "$CONFIG" "$SNAPSERVER_NAME"
 fi
 
 if [ -f "$CONFIG_BIN_DIR/kenwood-sound-plexamp-setup" ]; then
@@ -69,9 +69,9 @@ fi
 # ----------------------------
 
 cat > "$ENV_FILE" <<EOF
-SYSTEM_NAME=$SYSTEM_NAME
-ROLE=$ROLE
 DEVICE_NAME=$DEVICE_NAME
+ROLE=$ROLE
+SNAPSERVER_NAME=$SNAPSERVER_NAME
 SNAP_HOST=$SNAP_HOST
 SNAP_PORT=$SNAP_PORT
 SNAP_SOUNDCARD=$SNAP_SOUNDCARD

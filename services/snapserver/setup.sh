@@ -2,7 +2,7 @@
 set -e
 
 CONFIG="$1"
-SYSTEM_NAME="$2"
+SNAPSERVER_NAME="$2"
 ROLE="$3"
 
 # Early exit if not server
@@ -40,7 +40,7 @@ port = $AUDIO_PORT
 controlPort = $CONTROL_PORT
 http_port = $HTTP_PORT
 ipv6 = false
-hostname = $SYSTEM_NAME
+hostname = $SNAPSERVER_NAME
 sink = null
 
 [http]

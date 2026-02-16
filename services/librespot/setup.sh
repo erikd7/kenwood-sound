@@ -2,7 +2,7 @@
 set -e
 
 CONFIG="$1"
-SYSTEM_NAME="$2"
+SNAPSERVER_NAME="$2"
 
 # Early exit if librespot is disabled
 USE_LIBRESPOT=$(jq -r '.snapserver.streams.librespot' "$CONFIG")
@@ -35,7 +35,7 @@ VOLUME_STEPS=$(jq -r '.librespot.volume_steps' "$CONFIG")
 cat > "$LIB_CONFIG_FILE" <<EOF
 log_level: info
 
-device_name: $SYSTEM_NAME
+device_name: $SNAPSERVER_NAME
 device_type: $DEVICE_TYPE
 
 audio_backend: pipe

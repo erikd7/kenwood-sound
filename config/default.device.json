@@ -1,8 +1,8 @@
 {
-  "system_name": "MySoundSystem",
   "role": "both",
   "device_name": "Kitchen",
   "snapserver": {
+    "name": "MyHome",
     "ports": {
       "audio": 1704,
       "control": 1705,
