@@ -1,0 +1,36 @@
+{
+  "role": "both",
+  "device_name": "Kitchen",
+  "snapserver": {
+    "name": "221B Baker Street",
+    "ports": {
+      "audio": 1704,
+      "control": 1705,
+      "http": 1780
+    },
+    "codec": "flac",
+    "sample_format": "48000:16:2",
+    "buffer_ms": 100,
+    "streams": {
+      "librespot": true,
+      "airplay": false,
+      "plexamp": true,
+      "host_audio": false
+    }
+  },
+  "librespot": {
+    "stream_name": "Watson's Spotify",
+    "device_type": "speaker",
+    "bitrate": 320,
+    "initial_volume": 80,
+    "volume_steps": 100
+  },
+  "plexamp": {
+    "stream_name": "Sherlock's Plexamp"
+  },
+  "snapclient": {
+    "server_host": "localhost",
+    "server_port": 1704,
+    "output_device": "snapclient_dac"
+  }
+}

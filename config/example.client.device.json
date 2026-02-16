@@ -1,0 +1,9 @@
+{
+  "role": "client",
+  "device_name": "Garage",
+  "snapclient": {
+    "server_host": "my-snapserver-host.local",
+    "server_port": 1704,
+    "output_device": "snapclient_dac"
+  }
+}
