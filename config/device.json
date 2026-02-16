@@ -3,35 +3,27 @@
   "role": "both",
   "device_name": "Dining Room",
   "snapserver": {
-    "ports": {
-      "audio": 1704,
-      "control": 1705,
-      "http": 1780
-    },
-    "codec": "flac",
-    "sample_format": "48000:16:2",
-    "buffer_ms": 100,
     "streams": {
       "librespot": true,
       "airplay": true,
       "plexamp": true,
-      "host_audio": true
+      "host_audio": false
     }
   },
+  "librespot": {
+    "stream_name": "Spotify"
+  },
+  "airplay": {
+    "stream_name": "AirPlay"
+  },
+  "plexamp": {
+    "stream_name": "Plexamp"
+  },
   "host_audio": {
-    "name": "Turntable",
-    "device": "hw:CARD=5,DEV=0",
-    "sample_format": "48000:16:2"
+    "stream_name": "Turntable"
   },
   "snapclient": {
     "server_host": "localhost",
-    "server_port": 1704,
     "output_device": "snapclient_dac"
-  },
-  "librespot": {
-    "device_type": "speaker",
-    "bitrate": 320,
-    "initial_volume": 80,
-    "volume_steps": 100
   }
 }

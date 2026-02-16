@@ -5,7 +5,7 @@ CONFIG="$1"
 SYSTEM_NAME="$2"
 
 # Early exit if airplay is disabled
-USE_AIRPLAY=$(jq -r '.snapserver.streams.airplay // false' "$CONFIG")
+USE_AIRPLAY=$(jq -r '.snapserver.streams.airplay' "$CONFIG")
 if [ "$USE_AIRPLAY" != "true" ]; then
   exit 0
 fi

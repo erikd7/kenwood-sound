@@ -4,8 +4,13 @@ set -e
 CONFIG="$1"
 ROLE="$2"
 
-USE_PLEXAMP=$(jq -r '.snapserver.streams.plexamp // false' "$CONFIG")
+USE_PLEXAMP=$(jq -r '.snapserver.streams.plexamp' "$CONFIG")
 if [ "$USE_PLEXAMP" != "true" ]; then
+  exit 0
+fi
+
+# Early exit if not server
+if [[ "$ROLE" != "server" && "$ROLE" != "both" ]]; then
   exit 0
 fi
 

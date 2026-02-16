@@ -5,7 +5,7 @@ CONFIG="$1"
 SYSTEM_NAME="$2"
 
 # Early exit if librespot is disabled
-USE_LIBRESPOT=$(jq -r '.snapserver.streams.librespot // false' "$CONFIG")
+USE_LIBRESPOT=$(jq -r '.snapserver.streams.librespot' "$CONFIG")
 if [ "$USE_LIBRESPOT" != "true" ]; then
   exit 0
 fi
@@ -26,11 +26,11 @@ if [ ! -p "$LIB_FIFO" ]; then
   chown librespot:librespot "$LIB_FIFO"
 fi
 
-# Pull config values
-DEVICE_TYPE=$(jq -r '.librespot.device_type // "speaker"' "$CONFIG")
-BITRATE=$(jq -r '.librespot.bitrate // 320' "$CONFIG")
-INITIAL_VOLUME=$(jq -r '.librespot.initial_volume // 80' "$CONFIG")
-VOLUME_STEPS=$(jq -r '.librespot.volume_steps // 100' "$CONFIG")
+# Pull config values (no defaults)
+DEVICE_TYPE=$(jq -r '.librespot.device_type' "$CONFIG")
+BITRATE=$(jq -r '.librespot.bitrate' "$CONFIG")
+INITIAL_VOLUME=$(jq -r '.librespot.initial_volume' "$CONFIG")
+VOLUME_STEPS=$(jq -r '.librespot.volume_steps' "$CONFIG")
 
 cat > "$LIB_CONFIG_FILE" <<EOF
 log_level: info

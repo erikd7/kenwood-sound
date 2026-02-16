@@ -1,15 +1,22 @@
 #!/bin/bash
 set -e
 
-CONFIG="/etc/kenwood-sound/device.json"
+DEVICE_CONFIG="/etc/kenwood-sound/device.json"
+DEFAULT_CONFIG="/etc/kenwood-sound/default.device.json"
 ENV_DIR="/etc/kenwood-sound"
 ENV_FILE="$ENV_DIR/kenwood-sound.env"
 CONFIG_BIN_DIR="/usr/local/bin"
+MERGED_CONFIG="/tmp/merged-config.json"
 
 echo "Applying configuration from device.json"
 
-if [ ! -f "$CONFIG" ]; then
+if [ ! -f "$DEVICE_CONFIG" ]; then
   echo "device.json missing"
+  exit 1
+fi
+
+if [ ! -f "$DEFAULT_CONFIG" ]; then
+  echo "default.device.json missing"
   exit 1
 fi
 
@@ -22,13 +29,17 @@ if ! command -v jq >/dev/null 2>&1; then
   exit 1
 fi
 
-# Parse base config
+# Merge device.json with default.device.json (device overrides defaults)
+jq -s '.[0] * .[1]' "$DEFAULT_CONFIG" "$DEVICE_CONFIG" > "$MERGED_CONFIG"
+CONFIG="$MERGED_CONFIG"
+
+# Parse base config (from merged config, no inline defaults)
 SYSTEM_NAME=$(jq -r '.system_name' "$CONFIG")
 ROLE=$(jq -r '.role' "$CONFIG")
-DEVICE_NAME=$(jq -r '.device_name // ""' "$CONFIG")
-SNAP_HOST=$(jq -r '.snapclient.server_host // "127.0.0.1"' "$CONFIG")
-SNAP_PORT=$(jq -r '.snapclient.server_port // 1704' "$CONFIG")
-SNAP_SOUNDCARD=$(jq -r '.snapclient.output_device // "default"' "$CONFIG")
+DEVICE_NAME=$(jq -r '.device_name' "$CONFIG")
+SNAP_HOST=$(jq -r '.snapclient.server_host' "$CONFIG")
+SNAP_PORT=$(jq -r '.snapclient.server_port' "$CONFIG")
+SNAP_SOUNDCARD=$(jq -r '.snapclient.output_device' "$CONFIG")
 
 # Set hostname
 hostnamectl set-hostname "$SYSTEM_NAME"
@@ -67,3 +78,6 @@ SNAP_SOUNDCARD=$SNAP_SOUNDCARD
 EOF
 
 echo "Configuration applied successfully."
+
+# Cleanup
+rm -f "$MERGED_CONFIG"

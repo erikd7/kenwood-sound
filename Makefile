@@ -16,6 +16,7 @@ install:
 
 	# Copy config first so install scripts can check device.json
 	sudo cp config/device.json $(ETC_DIR)/device.json
+	sudo cp config/default.device.json $(ETC_DIR)/default.device.json
 
 	# Overlay
 	sudo cp -r overlay/etc/* /etc/
