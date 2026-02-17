@@ -1,0 +1,1 @@
+SUBSYSTEM=="sound", ACTION=="add", RUN+="/bin/systemctl restart snapclient.service"

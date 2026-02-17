@@ -36,7 +36,15 @@ install:
 	sudo cp services/plexamp/plexamp.service $(SYSTEMD_DIR)/
 	sudo cp services/snapserver/snapserver.service $(SYSTEMD_DIR)/
 	sudo cp services/snapclient/snapclient.service $(SYSTEMD_DIR)/
+	# Copy snapclient drop-in that waits for sound card
+	sudo mkdir -p $(SYSTEMD_DIR)/snapclient.service.d
+	sudo cp services/snapclient/snapclient.wait.conf $(SYSTEMD_DIR)/snapclient.service.d/wait.conf
 	sudo cp services/shairport-sync/shairport-sync.service $(SYSTEMD_DIR)/
+
+	# Udev rules from overlay
+	sudo mkdir -p /etc/udev/rules.d
+	sudo cp -r overlay/udev/* /etc/udev/rules.d/ || true
+	sudo udevadm control --reload-rules || true
 
 	# Install deps (install scripts check device.json and exit early if not needed)
 	sudo bash services/install.sh
