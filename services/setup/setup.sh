@@ -41,6 +41,36 @@ SNAP_HOST=$(jq -r '.snapclient.server_host' "$CONFIG")
 SNAP_PORT=$(jq -r '.snapclient.server_port' "$CONFIG")
 SNAP_SOUNDCARD=$(jq -r '.snapclient.output_device' "$CONFIG")
 
+# If this device will act as a client and uses the HiFiBerry DAC, ensure
+# the Raspberry Pi boot config enables the HiFiBerry overlay. Some OS
+# images place the file at /boot/config.txt or /boot/firmware/config.txt.
+if [[ "$ROLE" == "client" || "$ROLE" == "both" ]]; then
+  # Check whether any ALSA card looks like a HiFiBerry already
+  if ! aplay -l 2>/dev/null | grep -qi sndrpihifiberry; then
+    BOOT_CFG=""
+    if [ -f /boot/config.txt ]; then
+      BOOT_CFG=/boot/config.txt
+    elif [ -f /boot/firmware/config.txt ]; then
+      BOOT_CFG=/boot/firmware/config.txt
+    fi
+
+    if [ -n "$BOOT_CFG" ]; then
+      # If hifiberry overlay line not present, append it (backup first)
+      if ! grep -qi 'dtoverlay=.*hifiberry' "$BOOT_CFG"; then
+        echo "Backing up $BOOT_CFG to ${BOOT_CFG}.bak"
+        cp "$BOOT_CFG" "${BOOT_CFG}.bak"
+        echo "Appending dtoverlay=hifiberry-dac to $BOOT_CFG"
+        echo "\ndtoverlay=hifiberry-dac" >> "$BOOT_CFG"
+        echo "Note: a reboot is required for the overlay change to take effect."
+      fi
+      # Ensure audio is enabled
+      if ! grep -qi '^dtparam=audio=on' "$BOOT_CFG"; then
+        echo "dtparam=audio=on" >> "$BOOT_CFG"
+      fi
+    fi
+  fi
+fi
+
 # Set hostname to device_name
 hostnamectl set-hostname "$DEVICE_NAME"
 
