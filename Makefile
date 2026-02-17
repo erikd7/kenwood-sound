@@ -19,7 +19,7 @@ install:
 	sudo cp config/default.device.json $(ETC_DIR)/default.device.json
 
 	# Overlay
-	sudo cp -r overlay/etc/* /etc/
+	sudo cp -r overlay/etc/* /etc/ || true
 
 	# Setup scripts
 	sudo cp services/setup/setup.sh $(BIN_DIR)/$(PROJECT_NAME)-setup
