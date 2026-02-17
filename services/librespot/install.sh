@@ -5,7 +5,7 @@ CONFIG="/etc/kenwood-sound/device.json"
 
 # Early exit if librespot not needed
 if [ -f "$CONFIG" ]; then
-  USE_LIBRESPOT=$(jq -r '.snapserver.streams.librespot // true' "$CONFIG")
+  USE_LIBRESPOT=$(jq -r '.snapserver.streams.librespot // false' "$CONFIG")
   if [[ "$USE_LIBRESPOT" != "true" ]]; then
     echo "Librespot is disabled, skipping installation..."
     exit 0
