@@ -1,0 +1,13 @@
+[Unit]
+Description=Kenwood Sound - Start configured services
+After=network-online.target setup.service
+Requires=setup.service
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/kenwood-sound/kenwood-sound.env
+ExecStart=/usr/local/bin/kenwood-sound-start
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

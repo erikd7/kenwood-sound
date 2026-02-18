@@ -36,6 +36,7 @@ install:
 	sudo cp services/plexamp/plexamp.service $(SYSTEMD_DIR)/
 	sudo cp services/snapserver/snapserver.service $(SYSTEMD_DIR)/
 	sudo cp services/snapclient/snapclient.service $(SYSTEMD_DIR)/
+	sudo cp services/kenwood-sound.service $(SYSTEMD_DIR)/
 	sudo cp services/shairport-sync/shairport-sync.service $(SYSTEMD_DIR)/
 
 	# Install deps (install scripts check device.json and exit early if not needed)
@@ -54,6 +55,7 @@ enable:
 	sudo systemctl enable snapserver.service
 	sudo systemctl enable snapclient.service
 	sudo systemctl enable shairport-sync.service
+	sudo systemctl enable kenwood-sound.service
 
 disable:
 	sudo systemctl disable setup.service || true
@@ -62,6 +64,7 @@ disable:
 	sudo systemctl disable snapserver.service || true
 	sudo systemctl disable snapclient.service || true
 	sudo systemctl disable shairport-sync.service || true
+	sudo systemctl disable kenwood-sound.service || true
 
 uninstall:
 	@echo "Uninstalling..."
@@ -78,6 +81,7 @@ uninstall:
 	sudo rm -f $(SYSTEMD_DIR)/snapserver.service
 	sudo rm -f $(SYSTEMD_DIR)/snapclient.service
 	sudo rm -f $(SYSTEMD_DIR)/shairport-sync.service
+	sudo rm -f $(SYSTEMD_DIR)/kenwood-sound.service
 
 	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-setup
 	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-snapserver-setup
@@ -98,3 +102,4 @@ status:
 	systemctl status plexamp || true
 	systemctl status librespot || true
 	systemctl status shairport-sync || true
+	systemctl status kenwood-sound || true
