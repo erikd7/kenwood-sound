@@ -52,7 +52,7 @@ codec = $CODEC
 sampleFormat = $SAMPLE_FORMAT
 EOF
 
-# ---- Stream Sources ----
+# Stream Sources
 
 if [ "$USE_LIBRESPOT" = "true" ]; then
   LIB_BITRATE=$(jq -r '.librespot.bitrate' "$CONFIG")
@@ -84,7 +84,7 @@ source = alsa:///?name=$HOST_AUDIO_NAME&device=$HOST_AUDIO_DEVICE&sampleformat=$
 EOF
 fi
 
-# ---- Logging ----
+# Logging
 cat >> "$TMP_CONF" <<EOF
 
 [logging]

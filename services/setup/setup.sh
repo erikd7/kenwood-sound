@@ -123,9 +123,7 @@ mv "$ASOUND_TMP" "$ASOUND_FILE"
 chmod 644 "$ASOUND_FILE" || true
 
 
-# ----------------------------
 # Call service-specific setup scripts
-# ----------------------------
 
 if [ -f "$CONFIG_BIN_DIR/kenwood-sound-snapserver-setup" ]; then
   "$CONFIG_BIN_DIR/kenwood-sound-snapserver-setup" "$CONFIG" "$SNAPSERVER_NAME" "$ROLE"
@@ -143,9 +141,7 @@ if [ -f "$CONFIG_BIN_DIR/kenwood-sound-plexamp-setup" ]; then
   "$CONFIG_BIN_DIR/kenwood-sound-plexamp-setup" "$CONFIG" "$ROLE"
 fi
 
-# ----------------------------
 # Generate Environment File
-# ----------------------------
 
 cat > "$ENV_FILE" <<EOF
 DEVICE_NAME=$DEVICE_NAME
