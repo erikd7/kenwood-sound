@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # Use this script to initialize Plexamp on the first run
 

@@ -20,6 +20,29 @@ NODE_BIN="$NODE_INSTALL_DIR/bin/node"
 PLEXAMP_INSTALL_DIR="/usr/local/bin/plexamp"
 PLEXAMP_VERSION_FILE="$PLEXAMP_INSTALL_DIR/.version"
 
+# Safe removal helper to avoid catastrophic rm -rf when variables are empty
+safe_rmdir() {
+    local dir="$1"
+    if [ -z "$dir" ]; then
+        echo "Refusing to remove empty path"
+        return 1
+    fi
+    case "$dir" in
+        /*)
+            if [ "$dir" = "/" ]; then
+                echo "Refusing to remove root path"
+                return 1
+            fi
+            echo "Removing $dir"
+            sudo rm -rf -- "$dir"
+            ;;
+        *)
+            echo "Refusing to remove non-absolute path: $dir"
+            return 1
+            ;;
+    esac
+}
+
 if [[ "$ARCH" == "aarch64" ]]; then
     NODE_ARCH="arm64"
 elif [[ "$ARCH" == "armv7l" ]]; then
@@ -36,7 +59,7 @@ if [ -x "$NODE_BIN" ]; then
         echo "Node $NODE_VERSION_FOR_PLEXAMP already installed."
     else
         echo "Different Node version detected ($INSTALLED_VERSION). Reinstalling..."
-        sudo rm -rf "$NODE_INSTALL_DIR"
+        safe_rmdir "$NODE_INSTALL_DIR"
     fi
 fi
 
@@ -76,7 +99,7 @@ fi
 
 if [ "$INSTALL_PLEXAMP" = true ]; then
     echo "Installing Plexamp $LATEST_VERSION_NUMBER..."
-    sudo rm -rf "$PLEXAMP_INSTALL_DIR"
+    safe_rmdir "$PLEXAMP_INSTALL_DIR"
     sudo mkdir -p "$PLEXAMP_INSTALL_DIR"
 
     cd /tmp

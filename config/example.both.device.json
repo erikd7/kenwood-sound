@@ -13,9 +13,9 @@
     "buffer_ms": 100,
     "streams": {
       "librespot": true,
-      "airplay": false,
+      "airplay": true,
       "plexamp": true,
-      "host_audio": false
+      "host_audio": true
     }
   },
   "librespot": {
@@ -28,9 +28,17 @@
   "plexamp": {
     "stream_name": "Sherlock's Plexamp"
   },
+  "airplay": {
+    "stream_name": "AirPlay"
+  },
   "snapclient": {
     "server_host": "localhost",
     "server_port": 1704,
     "output_device": "snapclient_dac"
+  },
+  "host_audio": {
+    "stream_name": "CD Player",
+    "device": "hw:CARD=1,DEV=0",
+    "sample_format": "48000:16:2"
   }
 }

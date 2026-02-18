@@ -6,7 +6,8 @@ DEFAULT_CONFIG="/etc/kenwood-sound/default.device.json"
 ENV_DIR="/etc/kenwood-sound"
 ENV_FILE="$ENV_DIR/kenwood-sound.env"
 CONFIG_BIN_DIR="/usr/local/bin"
-MERGED_CONFIG="/tmp/merged-config.json"
+# Use a safe per-run temp file to avoid races
+MERGED_CONFIG=$(mktemp /tmp/merged-config.XXXXXX.json)
 
 echo "Applying configuration from device.json"
 
@@ -33,6 +34,9 @@ fi
 jq -s '.[0] * .[1]' "$DEFAULT_CONFIG" "$DEVICE_CONFIG" > "$MERGED_CONFIG"
 CONFIG="$MERGED_CONFIG"
 
+# Ensure temporary merged file is cleaned up
+trap 'rm -f "${MERGED_CONFIG}"' EXIT
+
 # Parse base config (from merged config, no inline defaults)
 DEVICE_NAME=$(jq -r '.device_name' "$CONFIG")
 ROLE=$(jq -r '.role' "$CONFIG")
@@ -41,8 +45,16 @@ SNAP_HOST=$(jq -r '.snapclient.server_host' "$CONFIG")
 SNAP_PORT=$(jq -r '.snapclient.server_port' "$CONFIG")
 SNAP_SOUNDCARD=$(jq -r '.snapclient.output_device' "$CONFIG")
 
-# Set hostname to device_name
-hostnamectl set-hostname "$DEVICE_NAME"
+# Derive a safe hostname (lowercase, replace invalid chars with '-') and limit length
+# Keep the original DEVICE_NAME for display; use HOSTNAME_SAFE for system hostname
+HOSTNAME_SAFE=$(echo "$DEVICE_NAME" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9._-]+/-/g' | sed -E 's/^-+|-+$//g' | cut -c1-63)
+if [ -n "$HOSTNAME_SAFE" ]; then
+  hostnamectl set-hostname "$HOSTNAME_SAFE"
+  # ensure /etc/hosts contains an entry for the safe hostname
+  if ! grep -q "\b$HOSTNAME_SAFE\b" /etc/hosts 2>/dev/null; then
+    echo "127.0.1.1 $HOSTNAME_SAFE" >> /etc/hosts
+  fi
+fi
 
 # Generate /etc/asound.conf dynamically based on role and streams
 ASOUND_FILE="/etc/asound.conf"
@@ -144,13 +156,14 @@ fi
 # Generate Environment File
 
 cat > "$ENV_FILE" <<EOF
-DEVICE_NAME=$DEVICE_NAME
-ROLE=$ROLE
-USE_PLEXAMP=$USE_PLEXAMP
-SNAPSERVER_NAME=$SNAPSERVER_NAME
-SNAP_HOST=$SNAP_HOST
-SNAP_PORT=$SNAP_PORT
-SNAP_SOUNDCARD=$SNAP_SOUNDCARD
+DEVICE_NAME="$DEVICE_NAME"
+HOSTNAME_SAFE="$HOSTNAME_SAFE"
+ROLE="$ROLE"
+USE_PLEXAMP="$USE_PLEXAMP"
+SNAPSERVER_NAME="$SNAPSERVER_NAME"
+SNAP_HOST="$SNAP_HOST"
+SNAP_PORT="$SNAP_PORT"
+SNAP_SOUNDCARD="$SNAP_SOUNDCARD"
 EOF
 
 echo "Configuration applied successfully."

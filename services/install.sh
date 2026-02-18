@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 ARCH=$(uname -m)
 echo "Detected architecture: $ARCH"

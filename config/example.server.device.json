@@ -1,6 +1,6 @@
 {
   "role": "server",
-  "device_name": "Kitchen",
+  "device_name": "Kitchen-Pi",
   "snapserver": {
     "name": "HomeAudio",
     "ports": {
@@ -18,22 +18,7 @@
       "host_audio": true
     }
   },
-  "librespot": {
-    "stream_name": "Spotify",
-    "device_type": "speaker",
-    "bitrate": 320,
-    "initial_volume": 80,
-    "volume_steps": 100
-  },
-  "airplay": {
-    "stream_name": "AirPlay"
-  },
   "plexamp": {
     "stream_name": "Plexamp"
-  },
-  "host_audio": {
-    "stream_name": "Turntable",
-    "device": "hw:CARD=1,DEV=0",
-    "sample_format": "48000:16:2"
   }
 }

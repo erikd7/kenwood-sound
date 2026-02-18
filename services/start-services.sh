@@ -1,6 +1,7 @@
 #!/bin/bash
+set -euo pipefail
 
-echo "Starting services for role: $ROLE"
+echo "Starting services for role: ${ROLE-}"
 
 systemctl disable snapserver.service || true
 systemctl disable snapclient.service || true
