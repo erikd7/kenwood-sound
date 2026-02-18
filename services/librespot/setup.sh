@@ -23,8 +23,9 @@ if [ ! -p "$LIB_FIFO" ]; then
   echo "Creating FIFO at $LIB_FIFO"
   rm -f "$LIB_FIFO"
   mkfifo "$LIB_FIFO" || true
-  sudo chown librespot:librespot "$LIB_FIFO"
 fi
+
+sudo chown librespot:librespot "$LIB_FIFO"
 
 # Pull config values (no defaults)
 DEVICE_TYPE=$(jq -r '.librespot.device_type' "$CONFIG")
