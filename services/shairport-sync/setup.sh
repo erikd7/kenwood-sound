@@ -20,8 +20,9 @@ if [ ! -p "$AIRPLAY_FIFO" ]; then
   echo "Creating FIFO at $AIRPLAY_FIFO"
   rm -f "$AIRPLAY_FIFO"
   mkfifo "$AIRPLAY_FIFO" || true
-  chown shairport-sync:shairport-sync "$AIRPLAY_FIFO"
 fi
+
+chown shairport-sync:shairport-sync "$AIRPLAY_FIFO"
 
 cat > "$AIRPLAY_CONF" <<EOF
 general = {
