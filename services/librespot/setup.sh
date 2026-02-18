@@ -23,7 +23,7 @@ if [ ! -p "$LIB_FIFO" ]; then
   echo "Creating FIFO at $LIB_FIFO"
   rm -f "$LIB_FIFO"
   mkfifo "$LIB_FIFO" || true
-  chown librespot:librespot "$LIB_FIFO"
+  sudo chown librespot:librespot "$LIB_FIFO"
 fi
 
 # Pull config values (no defaults)
