@@ -1,17 +1,30 @@
 #!/bin/bash
 
-# First run this: wget -O quick-start.sh https://raw.githubusercontent.com/erikd7/kenwood-sound/refs/heads/main/quick-start.sh
+# First run this: wget -O quick-start.sh https://raw.githubusercontent.com/erikd7/kenwood-sound/refs/tags/latest/quick-start.sh
 
 echo "Kenwood sound quick start..."
 
-wget -O kenwood-sound.zip https://github.com/erikd7/kenwood-sound/archive/refs/heads/main.zip
+echo "Removing old kenwood-sound if it exists..."
+sudo rm -rf ~/kenwood-sound-latest
+sudo rm ~/kenwood-sound.zip
+sudo rm -rf /opt/kenwood-sound
 
-sudo unzip -d kenwood-sound kenwood-sound.zip
+echo "Downloading latest kenwood-sound..."
+wget -O kenwood-sound.zip https://github.com/erikd7/kenwood-sound/archive/refs/tags/latest.zip
 
-sudo mkdir /opt/kenwood-sound
+echo "Extracting kenwood-sound..."
+sudo unzip kenwood-sound.zip
 
-sudo mv -f kenwood-sound-main/* /opt/kenwood-sound
+sudo mkdir -p /opt/kenwood-sound
 
+echo "Moving kenwood-sound to /opt..."
+sudo mv -f kenwood-sound-latest/* /opt/kenwood-sound
+
+echo "Cleaning up zip and extracted folder..."
+sudo rm -rf ~/kenwood-sound-latest
+sudo rm ~/kenwood-sound.zip
+
+echo "Changing directory to /opt/kenwood-sound..."
 cd /opt/kenwood-sound
 
 echo "Set your device config here (see readme and /config for examples):"
