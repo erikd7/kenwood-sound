@@ -143,7 +143,7 @@ I recommend initializing the software volume outside of Snapcast to make the Sna
 
 ## Installation
 
-You can also refer to [Quick Start](Copilot add link to that section here)
+You can also refer to [Quick Start](#quick-start)
 
 ### Download repository
 
