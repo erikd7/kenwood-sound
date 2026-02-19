@@ -8,6 +8,7 @@ I'm going to write the rest of this readme with the silly assumption that one pe
 
 1. Set up your Raspberry Pi running Raspberry Pi OS Lite or similar and connect it to your local network
 2. SSH into the pi
+   `ssh <rpi username>@<rpi host>`
 3. Clone the quick start script
    `wget -O quick-start.sh https://raw.githubusercontent.com/erikd7/kenwood-sound/refs/heads/main/quick-start.sh`
 4. Run the quick start script
@@ -135,6 +136,10 @@ Example snippet (more in `/config`):
   }
 }
 ```
+
+### Volume Control
+
+I recommend initializing the software volume outside of Snapcast to make the Snapcast sliders work relative to your sound system. With the Snapcast sliders level for each room, set the underlying volume control using `alsamixer`, then F6 to your output soundcard, and use the up and down arrow keys to set the room's volume. Repeat for each room to get them to a similar initial level. Then use the Snapcast UI sliders to set volume whenever needed.
 
 ## Installation
 
