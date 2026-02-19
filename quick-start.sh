@@ -4,14 +4,20 @@
 
 echo "Kenwood sound quick start..."
 
+echo "Removing old kenwood-sound if it exists..."
+sudo rm -rf ~/kenwood-sound
+sudo rm -rf /opt/kenwood-sound
+
+echo "Downloading latest kenwood-sound..."
 wget -O kenwood-sound.zip https://github.com/erikd7/kenwood-sound/archive/refs/heads/main.zip
 
+echo "Extracting kenwood-sound..."
 sudo unzip -d kenwood-sound kenwood-sound.zip
 
-sudo mkdir /opt/kenwood-sound
+echo "Moving kenwood-sound to /opt..."
+sudo mv -f kenwood-sound /opt
 
-sudo mv -f kenwood-sound-main/* /opt/kenwood-sound
-
+echo "Changing directory to /opt/kenwood-sound..."
 cd /opt/kenwood-sound
 
 echo "Set your device config here (see readme and /config for examples):"
