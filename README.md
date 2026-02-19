@@ -13,7 +13,7 @@ I'm going to write the rest of this readme with the silly assumption that one pe
    `wget -O quick-start.sh https://raw.githubusercontent.com/erikd7/kenwood-sound/refs/heads/main/quick-start.sh`
 4. Run the quick start script
    `sudo sh quick-start.sh`
-5. When prompted, enter your device config (see ## Configuration and refer to examples in `/config`)
+5. When prompted, enter your device config (see [Configuration](#configuration) and refer to examples in `/config`)
 6. Open the UI and enjoy
    `<IP of your server>:1780`
 
@@ -28,6 +28,8 @@ I set this up using a cluster of Raspberry Pi 4 Bs with [HifiBerry DACs](https:/
 My Raspberry Pis are running [Raspberry Pi OS Lite](https://downloads.raspberrypi.com/raspios_lite_arm64/images/raspios_lite_arm64-2025-12-04/2025-12-04-raspios-trixie-arm64-lite.img.xz), which is lightweight GUI-less x64 Debian distro.
 
 ## Configuration
+
+[Examples](#config-example)
 
 Device configuration is done in `config/device.json`. This file is merged with the default config (`config/default.device.json`) by the setup service and the service setup files (e.g. `services/snapserver/setup.sh`), and then finally and assembled into environment files and a config in `/etc/kenwood-sound`.
 
@@ -88,7 +90,9 @@ Top-level options
 - `server_port`: integer — snapcast audio port (default: `1704`).
 - `output_device`: string — ALSA PCM name to use (default: `snapclient_dac`).
 
-Example snippet (more in `/config`):
+### Config example
+
+More in the `/config` directory.
 
 ```json
 {
@@ -159,7 +163,7 @@ Run these steps in your Debian terminal:
    `sudo mv -f kenwood-sound-main/* /opt/kenwood-sound`
 5. Change to that directory
    `cd /opt/kenwood-sound`
-6. Configure `config/device.json` (see #configuration)
+6. Configure `config/device.json` (see [Configuration](#configuration))
 7. Install
    `make install`
 8. Run
