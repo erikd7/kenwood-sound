@@ -5,8 +5,7 @@
     "name": "HomeAudio",
     "ports": {
       "audio": 1704,
-      "control": 1705,
-      "http": 1780
+      "control": 1705
     },
     "codec": "flac",
     "sample_format": "48000:16:2",
@@ -17,6 +16,13 @@
       "plexamp": true,
       "host_audio": true
     }
+  },
+  "snapweb": {
+    "enabled": true,
+    "ports": {
+      "http": 1780
+    },
+    "doc_root": "/usr/share/snapserver/my-personal-ui"
   },
   "plexamp": {
     "stream_name": "Plexamp"

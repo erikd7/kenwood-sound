@@ -24,6 +24,7 @@ install:
 	# Setup scripts
 	sudo cp services/setup/setup.sh $(BIN_DIR)/$(PROJECT_NAME)-setup
 	sudo cp services/snapserver/setup.sh $(BIN_DIR)/$(PROJECT_NAME)-snapserver-setup
+	sudo cp services/snapweb/setup.sh $(BIN_DIR)/$(PROJECT_NAME)-snapweb-setup
 	sudo cp services/librespot/setup.sh $(BIN_DIR)/$(PROJECT_NAME)-librespot-setup
 	sudo cp services/shairport-sync/setup.sh $(BIN_DIR)/$(PROJECT_NAME)-shairport-setup
 	sudo cp services/plexamp/setup.sh $(BIN_DIR)/$(PROJECT_NAME)-plexamp-setup
@@ -85,6 +86,7 @@ uninstall:
 
 	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-setup
 	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-snapserver-setup
+	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-snapweb-setup
 	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-librespot-setup
 	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-shairport-setup
 	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-plexamp-setup

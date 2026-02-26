@@ -141,6 +141,10 @@ if [ -f "$CONFIG_BIN_DIR/kenwood-sound-snapserver-setup" ]; then
   "$CONFIG_BIN_DIR/kenwood-sound-snapserver-setup" "$CONFIG" "$SNAPSERVER_NAME" "$ROLE"
 fi
 
+if [ -f "$CONFIG_BIN_DIR/kenwood-sound-snapweb-setup" ]; then
+  "$CONFIG_BIN_DIR/kenwood-sound-snapweb-setup" "$CONFIG" "$ROLE"
+fi
+
 if [ -f "$CONFIG_BIN_DIR/kenwood-sound-librespot-setup" ]; then
   "$CONFIG_BIN_DIR/kenwood-sound-librespot-setup" "$CONFIG" "$SNAPSERVER_NAME"
 fi

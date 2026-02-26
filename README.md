@@ -53,7 +53,6 @@ Top-level options
 - `ports`: object — network ports for snapcast:
   - `audio` (default: `1704`)
   - `control` (default: `1705`)
-  - `http` (default: `1780`)
 - `codec`: string — `flac` or `pcm` (default `flac`).
 - `sample_format`: string — `RATE:BITS:CHANNELS` (e.g. `44100:16:2` or `48000:16:2`). This sets snapserver global sampleformat.
 - `buffer_ms`: integer — buffer size in milliseconds.
@@ -90,6 +89,13 @@ Top-level options
 - `server_port`: integer — snapcast audio port (default: `1704`).
 - `output_device`: string — ALSA PCM name to use (default: `snapclient_dac`).
 
+`snapweb` object
+
+- `enabled`: boolean (default: `false`) — enable the Snapweb UI. When enabled, configures Snapserver to serve the web UI.
+- `ports`: object — network ports for snapweb:
+  - `http` (default: `1780`) — HTTP port for the web UI
+- `doc_root`: string (default: `/usr/share/snapserver/snapweb/`) — path to the Snapweb UI files on the server.
+
 ### Config example
 
 More in the `/config` directory.
@@ -102,8 +108,7 @@ More in the `/config` directory.
     "name": "Home",
     "ports": {
       "audio": 1704,
-      "control": 1705,
-      "http": 1780
+      "control": 1705
     },
     "codec": "flac",
     "sample_format": "48000:16:2",
@@ -137,6 +142,12 @@ More in the `/config` directory.
     "server_host": "localhost",
     "server_port": 1704,
     "output_device": "snapclient_dac"
+  },
+  "snapweb": {
+    "enabled": true,
+    "ports": {
+      "http": 1780
+    }
   }
 }
 ```
@@ -174,7 +185,25 @@ Run these steps in your Debian terminal:
 
 1. Snapserver: sends audio in multiple streams to any number of devices
 2. Snapclient: receives audio stream from a snapserver
-3. UI: Allows you to manage streams (group, mute, adjust volume, select stream, rename, etc.)
+3. Snapweb UI: web-based interface to manage streams (group, mute, adjust volume, select stream, rename, etc.)
+
+### Snapweb UI
+
+The Snapweb UI is a built-in web interface for Snapcast management. Access it at:
+
+```
+http://<snapserver_ip>:<http_port>/
+```
+
+Replace `<snapserver_ip>` with the IP address of your Snapserver and `<http_port>` with the configured HTTP port (default: `1780`).
+
+To enable Snapweb in your config, set:
+
+```json
+"snapweb": {
+  "enabled": true
+}
+```
 
 ## Sources
 

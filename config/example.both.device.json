@@ -5,8 +5,7 @@
     "name": "221B Baker Street",
     "ports": {
       "audio": 1704,
-      "control": 1705,
-      "http": 1780
+      "control": 1705
     },
     "codec": "flac",
     "sample_format": "48000:16:2",
@@ -16,6 +15,12 @@
       "airplay": true,
       "plexamp": true,
       "host_audio": true
+    }
+  },
+  "snapweb": {
+    "enabled": true,
+    "ports": {
+      "http": 1780
     }
   },
   "librespot": {
