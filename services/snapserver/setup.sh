@@ -73,11 +73,12 @@ EOF
 fi
 
 if [ "$USE_HOST_AUDIO" = "true" ]; then
-  HOST_AUDIO_DEVICE=$(jq -r '.host_audio.device' "$CONFIG")
   HOST_AUDIO_FORMAT=$(jq -r '.host_audio.sample_format' "$CONFIG")
+  # Create the same sanitized PCM name as in setup.sh
+  HOST_AUDIO_PCM_NAME=$(echo "host_audio_in_$HOST_AUDIO_NAME" | tr ' ' '_' | tr '[:upper:]' '[:lower:]')
 
   cat >> "$TMP_CONF" <<EOF
-source = alsa:///?name=$HOST_AUDIO_NAME&device=$HOST_AUDIO_DEVICE&sampleformat=$HOST_AUDIO_FORMAT
+source = alsa:///?name=$HOST_AUDIO_NAME&device=$HOST_AUDIO_PCM_NAME&sampleformat=$HOST_AUDIO_FORMAT
 EOF
 fi
 

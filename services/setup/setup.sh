@@ -63,6 +63,7 @@ ASOUND_TMP="/etc/asound.conf.tmp"
 # Read useful audio-related config values
 SAMPLE_FORMAT=$(jq -r '.snapserver.sample_format' "$CONFIG")
 USE_PLEXAMP=$(jq -r '.snapserver.streams.plexamp' "$CONFIG")
+USE_HOST_AUDIO=$(jq -r '.snapserver.streams.host_audio' "$CONFIG")
 
 # Parse sample format (RATE:BITS:CHANNELS)
 IFS=':' read -r AS_RATE AS_BITS AS_CHANNELS <<< "$SAMPLE_FORMAT"
@@ -111,6 +112,22 @@ pcm.plexamp_in {
         rate $AS_RATE
         channels $AS_CHANNELS
     }
+}
+
+EOF
+  fi
+
+  # Add host_audio capture pcm if enabled (references device by name instead of card number)
+  if [ "$USE_HOST_AUDIO" = "true" ]; then
+    HOST_AUDIO_DEVICE=$(jq -r '.host_audio.device' "$CONFIG")
+    HOST_AUDIO_NAME=$(jq -r '.host_audio.stream_name' "$CONFIG")
+    # Create a sanitized PCM name from the stream name (spaces to underscores, lowercase)
+    HOST_AUDIO_PCM_NAME=$(echo "host_audio_in_$HOST_AUDIO_NAME" | tr ' ' '_' | tr '[:upper:]' '[:lower:]')
+    cat >> "$ASOUND_TMP" <<EOF
+pcm.$HOST_AUDIO_PCM_NAME {
+    type hw
+    card $HOST_AUDIO_DEVICE
+    device 0
 }
 
 EOF

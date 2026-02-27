@@ -25,5 +25,10 @@
   },
   "plexamp": {
     "stream_name": "Plexamp"
+  },
+  "host_audio": {
+    "stream_name": "External Audio Input",
+    "device": "find from aplay -l",
+    "sample_format": "48000:16:2"
   }
 }

@@ -43,7 +43,7 @@
   },
   "host_audio": {
     "stream_name": "CD Player",
-    "device": "hw:CARD=1,DEV=0",
+    "device": "CODEC",
     "sample_format": "48000:16:2"
   }
 }

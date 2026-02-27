@@ -36,11 +36,6 @@
   "plexamp": {
     "stream_name": "Plexamp"
   },
-  "host_audio": {
-    "stream_name": "System Audio",
-    "device": "hw:CARD=5,DEV=0",
-    "sample_format": "48000:16:2"
-  },
   "snapclient": {
     "server_host": "localhost",
     "server_port": 1704,

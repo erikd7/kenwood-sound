@@ -80,7 +80,7 @@ Top-level options
 `host_audio` object
 
 - `stream_name`: string — name shown in Snapcast for host audio input.
-- `device`: string — ALSA device string (e.g. `hw:CARD=1,DEV=0` or `hw:Loopback,1,0`). Use `aplay -l` to list devices.
+- `device`: string — ALSA device name (e.g. `CODEC`, `sndrpihifiberry`). Run `aplay -l` to find your device name in the output (e.g. "card 5: CODEC [USB AUDIO CODEC]"). Using the device name instead of the card number ensures the connection survives reboots when ALSA reorders cards.
 - `sample_format`: string — sample format for this source (`RATE:BITS:CHANNELS`).
 
 `snapclient` object
@@ -134,7 +134,7 @@ More in the `/config` directory.
   },
   "host_audio": {
     "stream_name": "Turntable",
-    "device": "hw:CARD=2,DEV=0",
+    "device": "CODEC",
     "sample_format": "48000:16:2"
   },
   "snapclient": {
@@ -226,19 +226,19 @@ Runs an AirPlay 2 server via [shairport-sync](https://github.com/mikebrady/shair
 
 ### Host Audio
 
-This just sends the audio from a host sound card to the Snapcast stream. This could be any audio source including external devices such as a TV, turntable, CD player, etc..
+Connects audio from a host sound card to the Snapcast stream. This could be any audio source including external devices such as a TV, turntable, CD player, etc.
 
-You need to set an input device in config to tell Snapcast which audio to send. Run `aplay -l` and use the card number from your device in config, like:
+To avoid issues when ALSA reorders cards on reboot, specify the device by its name instead of card number. Run `aplay -l` to find your device name, then configure it like:
 
-```
-...
+```json
   "host_audio": {
     "stream_name": "My External Audio Device",
-    "device": "hw:CARD=<my card number>,DEV=0",
-    "sample_format": "41000:16:2"
+    "device": "CODEC",
+    "sample_format": "48000:16:2"
   }
-...
 ```
+
+The setup script will create a stable ALSA PCM alias named `host_audio_in` that maps to your device by name, ensuring Snapcast continues to work even if the card number changes on reboot.
 
 ## Troubleshooting
 
