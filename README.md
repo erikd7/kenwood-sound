@@ -94,7 +94,6 @@ Top-level options
 - `enabled`: boolean (default: `false`) — enable the Snapweb UI. When enabled, configures Snapserver to serve the web UI.
 - `ports`: object — network ports for snapweb:
   - `http` (default: `1780`) — HTTP port for the web UI
-- `doc_root`: string (default: `/usr/share/snapserver/snapweb/`) — path to the Snapweb UI files on the server.
 
 ### Config example
 

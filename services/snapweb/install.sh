@@ -3,6 +3,7 @@ set -e
 
 ARCH=$1
 CONFIG="/etc/kenwood-sound/device.json"
+DOC_ROOT="/usr/share/snapserver/snapweb"
 
 # Early exit if snapweb not needed
 if [ -f "$CONFIG" ]; then
@@ -19,5 +20,9 @@ if [ -f "$CONFIG" ]; then
   fi
 fi
 
-echo "Snapweb install running on $ARCH"
-echo "Snapweb is installed as part of snapserver"
+echo "Installing snapweb files"
+wget -O snapweb.zip https://github.com/snapcast/snapweb/releases/download/v0.9.3/snapweb.zip
+sudo unzip snapweb.zip -d snapweb
+sudo mkdir -p $DOC_ROOT
+sudo mv -f snapweb/* $DOC_ROOT
+rm snapweb.zip

@@ -18,7 +18,7 @@ fi
 echo "Configuring snapweb in snapserver"
 
 SNAP_CONF="/etc/snapserver.conf"
-DOC_ROOT=$(jq -r '.snapweb.doc_root // "/usr/share/snapserver/snapweb"' "$CONFIG")
+DOC_ROOT="/usr/share/snapserver/snapweb"
 
 if [ ! -f "$SNAP_CONF" ]; then
   echo "Error: snapserver.conf not found. Snapserver must be enabled when using snapweb."

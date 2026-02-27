@@ -21,8 +21,7 @@
     "enabled": false,
     "ports": {
       "http": 1780
-    },
-    "doc_root": "/usr/share/snapserver/snapweb"
+    }
   },
   "librespot": {
     "stream_name": "Spotify",
