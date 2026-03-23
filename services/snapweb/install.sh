@@ -14,7 +14,8 @@ if [ -f "$CONFIG" ]; then
   fi
   
   USE_SNAPWEB=$(jq -r '.snapweb.enabled // false' "$CONFIG")
-  if [ "$USE_SNAPWEB" != "true" ]; then
+  USE_KENWOOD_SOUND_UI=$(jq -r '.kenwood_sound_ui.enabled // false' "$CONFIG")
+  if [ "$USE_SNAPWEB" != "true" ] && [ "$USE_KENWOOD_SOUND_UI" != "true" ]; then
     echo "Snapweb not enabled in config"
     exit 0
   fi
@@ -22,7 +23,9 @@ fi
 
 echo "Installing snapweb files"
 wget -O snapweb.zip https://github.com/snapcast/snapweb/releases/download/v0.9.3/snapweb.zip
-sudo unzip snapweb.zip -d snapweb
-sudo mkdir -p $DOC_ROOT
-sudo mv -f snapweb/* $DOC_ROOT
-rm snapweb.zip
+sudo unzip -o snapweb.zip -d snapweb
+sudo mkdir -p "$DOC_ROOT"
+sudo mv -f snapweb/* "$DOC_ROOT"
+rm -rf snapweb snapweb.zip
+
+echo "Snapweb installed"

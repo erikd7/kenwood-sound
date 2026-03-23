@@ -23,6 +23,12 @@
       "http": 1780
     }
   },
+  "kenwood_sound_ui": {
+    "enabled": true,
+    "ports": {
+      "http": 80
+    }
+  },
   "librespot": {
     "stream_name": "Watson's Spotify",
     "device_type": "speaker",

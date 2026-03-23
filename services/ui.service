@@ -1,0 +1,14 @@
+[Unit]
+Description=Kenwood Sound UI
+After=network-online.target setup.service
+Requires=setup.service
+
+[Service]
+Type=simple
+EnvironmentFile=-/etc/kenwood-sound/kenwood-sound-ui.env
+WorkingDirectory=/opt/kenwood-sound-ui
+ExecStart=/bin/sh -c 'cd "${KENWOOD_SOUND_UI_DIR:-/opt/kenwood-sound-ui}" && HOST="${KENWOOD_SOUND_UI_HOST:-0.0.0.0}" PORT="${KENWOOD_SOUND_UI_PORT:-80}" npm run serve'
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -8,6 +8,7 @@ systemctl disable snapclient.service || true
 systemctl disable librespot.service || true
 systemctl disable shairport-sync.service || true
 systemctl disable plexamp.service || true
+systemctl disable ui.service || true
 
 case "$ROLE" in
   server)
@@ -19,6 +20,8 @@ case "$ROLE" in
     systemctl restart shairport-sync
     systemctl enable snapserver
     systemctl restart snapserver
+    systemctl enable ui
+    systemctl restart ui
     ;;
   client)
     systemctl enable snapclient
@@ -33,6 +36,8 @@ case "$ROLE" in
     systemctl restart shairport-sync
     systemctl enable snapserver
     systemctl restart snapserver
+    systemctl enable ui
+    systemctl restart ui
     systemctl enable snapclient
     systemctl restart snapclient
     ;;

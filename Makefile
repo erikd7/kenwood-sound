@@ -25,6 +25,7 @@ install:
 	sudo cp services/setup/setup.sh $(BIN_DIR)/$(PROJECT_NAME)-setup
 	sudo cp services/snapserver/setup.sh $(BIN_DIR)/$(PROJECT_NAME)-snapserver-setup
 	sudo cp services/snapweb/setup.sh $(BIN_DIR)/$(PROJECT_NAME)-snapweb-setup
+	sudo cp services/kenwood_sound_ui/setup.sh $(BIN_DIR)/$(PROJECT_NAME)-kenwood-sound-ui-setup
 	sudo cp services/librespot/setup.sh $(BIN_DIR)/$(PROJECT_NAME)-librespot-setup
 	sudo cp services/shairport-sync/setup.sh $(BIN_DIR)/$(PROJECT_NAME)-shairport-setup
 	sudo cp services/plexamp/setup.sh $(BIN_DIR)/$(PROJECT_NAME)-plexamp-setup
@@ -37,6 +38,7 @@ install:
 	sudo cp services/plexamp/plexamp.service $(SYSTEMD_DIR)/
 	sudo cp services/snapserver/snapserver.service $(SYSTEMD_DIR)/
 	sudo cp services/snapclient/snapclient.service $(SYSTEMD_DIR)/
+	sudo cp services/ui.service $(SYSTEMD_DIR)/
 	sudo cp services/kenwood-sound.service $(SYSTEMD_DIR)/
 	sudo cp services/shairport-sync/shairport-sync.service $(SYSTEMD_DIR)/
 
@@ -55,6 +57,7 @@ enable:
 	sudo systemctl enable librespot.service
 	sudo systemctl enable snapserver.service
 	sudo systemctl enable snapclient.service
+	sudo systemctl enable ui.service
 	sudo systemctl enable shairport-sync.service
 	sudo systemctl enable kenwood-sound.service
 
@@ -64,6 +67,7 @@ disable:
 	sudo systemctl disable librespot.service || true
 	sudo systemctl disable snapserver.service || true
 	sudo systemctl disable snapclient.service || true
+	sudo systemctl disable ui.service || true
 	sudo systemctl disable shairport-sync.service || true
 	sudo systemctl disable kenwood-sound.service || true
 
@@ -81,12 +85,14 @@ uninstall:
 	sudo rm -f $(SYSTEMD_DIR)/librespot.service
 	sudo rm -f $(SYSTEMD_DIR)/snapserver.service
 	sudo rm -f $(SYSTEMD_DIR)/snapclient.service
+	sudo rm -f $(SYSTEMD_DIR)/ui.service
 	sudo rm -f $(SYSTEMD_DIR)/shairport-sync.service
 	sudo rm -f $(SYSTEMD_DIR)/kenwood-sound.service
 
 	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-setup
 	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-snapserver-setup
 	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-snapweb-setup
+	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-kenwood-sound-ui-setup
 	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-librespot-setup
 	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-shairport-setup
 	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-plexamp-setup
@@ -101,6 +107,7 @@ status:
 	systemctl status setup || true
 	systemctl status snapserver || true
 	systemctl status snapclient || true
+	systemctl status ui || true
 	systemctl status plexamp || true
 	systemctl status librespot || true
 	systemctl status shairport-sync || true

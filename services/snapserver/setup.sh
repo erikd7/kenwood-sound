@@ -17,7 +17,7 @@ TMP_CONF="/etc/snapserver.conf.tmp"
 
 AUDIO_PORT=$(jq -r '.snapserver.ports.audio' "$CONFIG")
 CONTROL_PORT=$(jq -r '.snapserver.ports.control' "$CONFIG")
-HTTP_PORT=$(jq -r '.snapweb.ports.http' "$CONFIG")
+HTTP_PORT=$(jq -r '.snapweb.ports.http // 1780' "$CONFIG")
 
 CODEC=$(jq -r '.snapserver.codec' "$CONFIG")
 SAMPLE_FORMAT=$(jq -r '.snapserver.sample_format' "$CONFIG")

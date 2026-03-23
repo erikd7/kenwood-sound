@@ -10,7 +10,8 @@ if [[ "$ROLE" != "server" && "$ROLE" != "both" ]]; then
 fi
 
 USE_SNAPWEB=$(jq -r '.snapweb.enabled // false' "$CONFIG")
-if [ "$USE_SNAPWEB" != "true" ]; then
+USE_KENWOOD_SOUND_UI=$(jq -r '.kenwood_sound_ui.enabled // false' "$CONFIG")
+if [ "$USE_SNAPWEB" != "true" ] && [ "$USE_KENWOOD_SOUND_UI" != "true" ]; then
   echo "Snapweb not enabled in config"
   exit 0
 fi

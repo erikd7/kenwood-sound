@@ -64,6 +64,11 @@ ASOUND_TMP="/etc/asound.conf.tmp"
 SAMPLE_FORMAT=$(jq -r '.snapserver.sample_format' "$CONFIG")
 USE_PLEXAMP=$(jq -r '.snapserver.streams.plexamp' "$CONFIG")
 USE_HOST_AUDIO=$(jq -r '.snapserver.streams.host_audio' "$CONFIG")
+USE_SNAPWEB=$(jq -r '.snapweb.enabled // false' "$CONFIG")
+USE_KENWOOD_SOUND_UI=$(jq -r '.kenwood_sound_ui.enabled // false' "$CONFIG")
+if [ "$USE_KENWOOD_SOUND_UI" = "true" ]; then
+  USE_SNAPWEB=true
+fi
 
 # Parse sample format (RATE:BITS:CHANNELS)
 IFS=':' read -r AS_RATE AS_BITS AS_CHANNELS <<< "$SAMPLE_FORMAT"
@@ -162,6 +167,10 @@ if [ -f "$CONFIG_BIN_DIR/kenwood-sound-snapweb-setup" ]; then
   "$CONFIG_BIN_DIR/kenwood-sound-snapweb-setup" "$CONFIG" "$ROLE"
 fi
 
+if [ -f "$CONFIG_BIN_DIR/kenwood-sound-kenwood-sound-ui-setup" ]; then
+  "$CONFIG_BIN_DIR/kenwood-sound-kenwood-sound-ui-setup" "$CONFIG" "$ROLE"
+fi
+
 if [ -f "$CONFIG_BIN_DIR/kenwood-sound-librespot-setup" ]; then
   "$CONFIG_BIN_DIR/kenwood-sound-librespot-setup" "$CONFIG" "$SNAPSERVER_NAME"
 fi
@@ -181,6 +190,8 @@ DEVICE_NAME="$DEVICE_NAME"
 HOSTNAME_SAFE="$HOSTNAME_SAFE"
 ROLE="$ROLE"
 USE_PLEXAMP="$USE_PLEXAMP"
+USE_SNAPWEB="$USE_SNAPWEB"
+USE_KENWOOD_SOUND_UI="$USE_KENWOOD_SOUND_UI"
 SNAPSERVER_NAME="$SNAPSERVER_NAME"
 SNAP_HOST="$SNAP_HOST"
 SNAP_PORT="$SNAP_PORT"

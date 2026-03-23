@@ -91,9 +91,15 @@ Top-level options
 
 `snapweb` object
 
-- `enabled`: boolean (default: `false`) — enable the Snapweb UI. When enabled, configures Snapserver to serve the web UI.
+- `enabled`: boolean (default: `false`) — enable the Snapweb UI and configure Snapserver to serve it.
 - `ports`: object — network ports for snapweb:
   - `http` (default: `1780`) — HTTP port for the web UI
+
+`kenwood_sound_ui` object
+
+- `enabled`: boolean (default: `false`) — enable Kenwood Sound UI on its own HTTP service. When `true`, Snapweb is automatically enabled.
+- `ports`: object — network ports for Kenwood Sound UI:
+  - `http` (default: `80`) — HTTP port for the web UI
 
 ### Config example
 
@@ -147,6 +153,12 @@ More in the `/config` directory.
     "ports": {
       "http": 1780
     }
+  },
+  "kenwood_sound_ui": {
+    "enabled": true,
+    "ports": {
+      "http": 80
+    }
   }
 }
 ```
@@ -196,10 +208,32 @@ http://<snapserver_ip>:<http_port>/
 
 Replace `<snapserver_ip>` with the IP address of your Snapserver and `<http_port>` with the configured HTTP port (default: `1780`).
 
+Snapweb can be enabled on its own. If `kenwood_sound_ui.enabled` is `true`, Snapweb is enabled automatically.
+
 To enable Snapweb in your config, set:
 
 ```json
 "snapweb": {
+  "enabled": true
+}
+```
+
+### Kenwood Sound UI
+
+Kenwood Sound UI is built from [kenwood-sound-ui](https://github.com/erikd7/kenwood-sound-ui) during `make install` when `kenwood_sound_ui.enabled` is `true`. It runs as a dedicated HTTP service separate from Snapserver. The installer automatically installs Node.js 20+ if needed.
+
+Access it at:
+
+```
+http://<snapserver_ip>:<http_port>/
+```
+
+Replace `<snapserver_ip>` with the IP address of your Snapserver and `<http_port>` with the configured HTTP port (default: `80`).
+
+To enable Kenwood Sound UI in your config, set:
+
+```json
+"kenwood_sound_ui": {
   "enabled": true
 }
 ```

@@ -8,6 +8,7 @@ sudo apt install jq -y
 
 bash ./services/snapserver/install.sh "$ARCH"
 bash ./services/snapweb/install.sh "$ARCH"
+bash ./services/kenwood_sound_ui/install.sh "$ARCH"
 bash ./services/snapclient/install.sh "$ARCH"
 bash ./services/plexamp/install.sh "$ARCH"
 bash ./services/librespot/install.sh "$ARCH"
