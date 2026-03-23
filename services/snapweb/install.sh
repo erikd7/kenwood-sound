@@ -25,6 +25,7 @@ echo "Installing snapweb files"
 wget -O snapweb.zip https://github.com/snapcast/snapweb/releases/download/v0.9.3/snapweb.zip
 sudo unzip -o snapweb.zip -d snapweb
 sudo mkdir -p "$DOC_ROOT"
+sudo rm -rf "$DOC_ROOT"/*
 sudo mv -f snapweb/* "$DOC_ROOT"
 rm -rf snapweb snapweb.zip
 
