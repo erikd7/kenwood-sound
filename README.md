@@ -163,6 +163,54 @@ More in the `/config` directory.
 }
 ```
 
+## Graceful Shutdown Listener
+
+This repository includes a small HTTP listener that accepts a simple
+HTTP request and triggers a safe system shutdown. It's intended for
+headless Pis where a network-based shutdown trigger is convenient for
+remote management (for example from a UPS or a trusted controller).
+
+- Script: `services/graceful-shutdown/shutdown-listener.sh`
+- Systemd unit: `services/graceful-shutdown/shutdown-listener.service`
+
+Install and enable (the `make install` flow copies these into place):
+
+```bash
+  sudo make install
+  sudo make enable
+  sudo systemctl daemon-reload
+  sudo systemctl start shutdown-listener.service
+  sudo systemctl status shutdown-listener.service
+```
+
+Where the installer places the files:
+
+- `/usr/local/bin/shutdown-listener.sh` — executable listener script
+- `/etc/systemd/system/shutdown-listener.service` — systemd unit
+
+Behavior and testing
+
+- The listener binds on port `5000` by default and responds to
+  `POST /shutdown` or `GET /shutdown` by replying `200 OK` and calling
+  `sudo poweroff`. Running the `curl` command below will power off the
+  Pi, so use with care.
+
+```bash
+# This will cause the Pi to power off
+curl -X POST http://<pi-ip>:5000/shutdown
+```
+
+Security notes
+
+- The listener accepts requests without authentication. Restrict access
+  using a firewall, SSH tunnels, or network isolation. Consider adding
+  a token check, IP whitelist, or TLS proxy if you expose the port to
+  untrusted networks.
+- Logs appear in the system journal: `journalctl -u shutdown-listener.service`.
+
+If you want the service to use a different port, set the `PORT`
+environment variable in a systemd drop-in or the unit file.
+
 ### Volume Control
 
 I recommend initializing the software volume outside of Snapcast to make the Snapcast sliders work relative to your sound system. With the Snapcast sliders level for each room, set the underlying volume control using `alsamixer`, then F6 to your output soundcard, and use the up and down arrow keys to set the room's volume. Repeat for each room to get them to a similar initial level. Then use the Snapcast UI sliders to set volume whenever needed.

@@ -32,6 +32,10 @@ install:
 	sudo cp services/start-services.sh $(BIN_DIR)/$(PROJECT_NAME)-start
 	sudo chmod +x $(BIN_DIR)/$(PROJECT_NAME)-*
 
+	# Shutdown listener script and unit
+	sudo cp services/graceful-shutdown/shutdown-listener.sh $(BIN_DIR)/shutdown-listener.sh
+	sudo chmod +x $(BIN_DIR)/shutdown-listener.sh
+
 	# Systemd service files
 	sudo cp services/setup/setup.service $(SYSTEMD_DIR)/
 	sudo cp services/librespot/librespot.service $(SYSTEMD_DIR)/
@@ -41,6 +45,7 @@ install:
 	sudo cp services/ui.service $(SYSTEMD_DIR)/
 	sudo cp services/kenwood-sound.service $(SYSTEMD_DIR)/
 	sudo cp services/shairport-sync/shairport-sync.service $(SYSTEMD_DIR)/
+	sudo cp services/graceful-shutdown/shutdown-listener.service $(SYSTEMD_DIR)/
 
 	# Install deps (install scripts check device.json and exit early if not needed)
 	sudo bash services/install.sh
@@ -60,6 +65,7 @@ enable:
 	sudo systemctl enable ui.service
 	sudo systemctl enable shairport-sync.service
 	sudo systemctl enable kenwood-sound.service
+	sudo systemctl enable shutdown-listener.service
 
 disable:
 	sudo systemctl disable setup.service || true
@@ -70,6 +76,7 @@ disable:
 	sudo systemctl disable ui.service || true
 	sudo systemctl disable shairport-sync.service || true
 	sudo systemctl disable kenwood-sound.service || true
+	sudo systemctl disable shutdown-listener.service || true
 
 uninstall:
 	@echo "Uninstalling..."
@@ -79,6 +86,8 @@ uninstall:
 	sudo systemctl disable snapserver.service || true
 	sudo systemctl disable snapclient.service || true
 	sudo systemctl disable shairport-sync.service || true
+	sudo systemctl disable ui.service || true
+	sudo systemctl disable shutdown-listener.service || true
 
 	sudo rm -f $(SYSTEMD_DIR)/setup.service
 	sudo rm -f $(SYSTEMD_DIR)/plexamp.service
@@ -88,6 +97,7 @@ uninstall:
 	sudo rm -f $(SYSTEMD_DIR)/ui.service
 	sudo rm -f $(SYSTEMD_DIR)/shairport-sync.service
 	sudo rm -f $(SYSTEMD_DIR)/kenwood-sound.service
+	sudo rm -f $(SYSTEMD_DIR)/shutdown-listener.service
 
 	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-setup
 	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-snapserver-setup
@@ -97,6 +107,7 @@ uninstall:
 	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-shairport-setup
 	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-plexamp-setup
 	sudo rm -f $(BIN_DIR)/$(PROJECT_NAME)-start
+	sudo rm -f $(BIN_DIR)/shutdown-listener.sh
 
 	sudo systemctl daemon-reload
 	@echo "Uninstall complete."
@@ -112,3 +123,4 @@ status:
 	systemctl status librespot || true
 	systemctl status shairport-sync || true
 	systemctl status kenwood-sound || true
+	systemctl status shutdown-listener || true
