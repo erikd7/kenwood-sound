@@ -15,11 +15,15 @@ echo "Generating shairport-sync config"
 AIRPLAY_FIFO="/tmp/airplayfifo"
 AIRPLAY_CONF="/etc/shairport-sync.conf"
 
-# Ensure FIFO exists
+# Ensure FIFO exists and is a valid named pipe.
+if [ -e "$AIRPLAY_FIFO" ] && [ ! -p "$AIRPLAY_FIFO" ]; then
+  echo "Removing stale non-pipe at $AIRPLAY_FIFO"
+  rm -f "$AIRPLAY_FIFO"
+fi
+
 if [ ! -p "$AIRPLAY_FIFO" ]; then
   echo "Creating FIFO at $AIRPLAY_FIFO"
-  rm -f "$AIRPLAY_FIFO"
-  mkfifo "$AIRPLAY_FIFO" || true
+  mkfifo "$AIRPLAY_FIFO"
 fi
 
 chown shairport-sync:shairport-sync "$AIRPLAY_FIFO"

@@ -18,11 +18,15 @@ LIB_FIFO="/tmp/librespotfifo"
 
 mkdir -p "$LIB_CONFIG_DIR"
 
-# Ensure FIFO exists with librespot ownership
+# Ensure FIFO exists and is a valid named pipe with librespot ownership.
+if [ -e "$LIB_FIFO" ] && [ ! -p "$LIB_FIFO" ]; then
+  echo "Removing stale non-pipe at $LIB_FIFO"
+  rm -f "$LIB_FIFO"
+fi
+
 if [ ! -p "$LIB_FIFO" ]; then
   echo "Creating FIFO at $LIB_FIFO"
-  rm -f "$LIB_FIFO"
-  mkfifo "$LIB_FIFO" || true
+  mkfifo "$LIB_FIFO"
 fi
 
 sudo chown librespot:librespot "$LIB_FIFO"

@@ -6,6 +6,8 @@ Requires=setup.service
 [Service]
 User=shairport-sync
 Group=audio
+PermissionsStartOnly=true
+ExecStartPre=/bin/bash -c 'if [ -e /tmp/airplayfifo ] && [ ! -p /tmp/airplayfifo ]; then rm -f /tmp/airplayfifo; fi; if [ ! -p /tmp/airplayfifo ]; then mkfifo /tmp/airplayfifo; fi; chown shairport-sync:shairport-sync /tmp/airplayfifo'
 ExecStart=/usr/bin/shairport-sync -c /etc/shairport-sync.conf
 Restart=always
 

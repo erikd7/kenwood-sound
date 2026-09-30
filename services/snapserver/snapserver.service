@@ -6,9 +6,11 @@ Requires=setup.service
 [Service]
 User=snapserver
 Group=audio
+PermissionsStartOnly=true
 WorkingDirectory=/var/lib/snapserver
 Environment=HOME=/var/lib/snapserver
 EnvironmentFile=/etc/kenwood-sound/kenwood-sound.env
+ExecStartPre=/bin/bash -c 'if [ -e /tmp/librespotfifo ] && [ ! -p /tmp/librespotfifo ]; then rm -f /tmp/librespotfifo; fi; if [ ! -p /tmp/librespotfifo ]; then mkfifo /tmp/librespotfifo; fi; chown librespot:librespot /tmp/librespotfifo; if [ -e /tmp/airplayfifo ] && [ ! -p /tmp/airplayfifo ]; then rm -f /tmp/airplayfifo; fi; if [ ! -p /tmp/airplayfifo ]; then mkfifo /tmp/airplayfifo; fi; chown shairport-sync:shairport-sync /tmp/airplayfifo'
 ExecStart=/usr/bin/snapserver --config /etc/snapserver.conf
 Restart=always
 
