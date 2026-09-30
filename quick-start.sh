@@ -48,4 +48,13 @@ fi
 echo "Starting services..."
 sudo systemctl start kenwood-sound
 
+VERSION_FILE="$PWD/VERSION"
+if [ -f "$VERSION_FILE" ]; then
+	VERSION=$(tr -d '\r\n' < "$VERSION_FILE")
+else
+	VERSION="unknown"
+fi
+
+echo "Kenwood Sound version: $VERSION"
+
 echo "Enjoy!"
